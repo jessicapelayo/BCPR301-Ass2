@@ -14,12 +14,14 @@ import re
 import pickle
 from Person import *
 from Validator import *
+from ChartData import *
 
 
 class Model:
     def __init__(self):
         self.file_there = ""
         self.validator = Validator()
+        self.chart_data = ChartData()
 
     def add_new_data(self, new_array):
         self.validator.add_new_data(new_array)
@@ -51,34 +53,11 @@ class Model:
             pickle.dump(self.validator.get_data(), f)
 
     def get_sales(self):
-        result = []
-        for i in self.validator.get_data():
-            result.append(int(i[3]))
-        return result
+        return self.chart_data.get_sales(self.validator.get_data())
+
 
     def get_weight(self):
-        normal = 0
-        over = 0
-        obese = 0
-        under = 0
-        for i in self.validator.get_data():
-            if i[4] == 'Normal':
-                normal += 1
-            elif i[4] == 'Overweight':
-                over += 1
-            elif i[4] == 'Obesity':
-                obese += 1
-            elif i[4] == 'Underweight':
-                under += 1
-        return [normal, over, obese, under]
+        return self.chart_data.get_weight(self.validator.get_data())
 
     def get_gender(self):
-        m = 0
-        f = 0
-        for i in self.validator.get_data():
-            if i[1] == 'M':
-                m += 1
-            elif i[1] == 'F':
-                f += 1
-        return [m, f]
-
+        return self.chart_data.get_gender(self.validator.get_data())
