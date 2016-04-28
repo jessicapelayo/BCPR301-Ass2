@@ -12,11 +12,13 @@
 """
 import re
 import pickle
+from Person import *
 
 
 class Model:
     def __init__(self):
         self.data_set = list()
+        self.good_data = {}
         self.display_data = list()
         self.wrong_data = list()
         self.file_there = ""
@@ -47,50 +49,51 @@ class Model:
         #self.wash_data()
 
     def wash_data(self):
+        #self.loop_lines()
+        for line in self.data_set:
+            self.loop_line_item(line)
+        return self.get_good_data()
+
+    def get_good_data(self):
+        result = []
+        for i in self.good_data:
+            p = self.good_data.get(i)
+            result.append(i + "," + p.get_gender() + "," + p.get_age() + "," + p.get_sales() + "," + p.get_bmi() + "," + p.get_income())
+        return result
+
+
+    #def loop_lines(self):
+    #    for line in self.data_set:
+    #        self.loop_line_item(line)
+
+
+    def loop_line_item(self, line):
         RULES = ['^[A-Z][0-9]{3}$', '(M|F)', '[0-9]{2}$', '[0-9]{3}$', '(Normal|Overweight|Obesity|Underweight)',
                  '[0-9]{2,3}$']
-        index = 0
-        del_num_list = list()
-        for i in self.data_set:
-            tmp = self.data_set[index].split(',')
-            index += 1
-            num = 0
-            inter = 0
-            matching = None
+        split_line = line.split(',')
+        #for me, this line of code is unnecessary but it is needed for all the get methods to work
+        self.display_data.insert(self.display_data.__sizeof__(), split_line)
+        i = 0
+        num_of_invalid_data = 0
+        for item in split_line:
+            result = re.match(RULES[i], item)
+            i += 1
+            #if result == None:
+                #self.wrong_data.append(line)
+            if result == None:
+                num_of_invalid_data += 1
+        self.validate_line(line, num_of_invalid_data)
 
-            self.display_data.insert(self.display_data.__sizeof__(), tmp)
-            for data in tmp:
-                """
-                if num == 1:
-                    matching = re.match("^[A-Z][0-9]{3}$", data, flags=re.IGNORECASE)
-                elif num == 2:
-                    matching = re.match("(M|F)", data)
-                elif num == 3:
-                    matching = re.match("[0-9]{1,2}$", data)
-                elif num == 4:
-                    matching = re.match("[0-9]{3}$", data)
-                elif num == 5:
-                    matching = re.match("(Normal|Overweight|Obesity|Underweight)", data)
-                elif num == 6:
-                    matching = re.match("[0-9]{2,3}$", data)
-                """
-                matching = re.match(RULES[num], data)
-                num += 1
-                if matching is None:
-                    self.wrong_data.insert(self.wrong_data.__sizeof__(), data)
-                    if inter == 0:
-                        del_num_list.insert(del_num_list.__sizeof__(), index)
-                        inter += 1
-                    # Saving the specific data that's wrong - can change to whole line if we want
+    def validate_line(self, line, aNum):
+        if aNum == 0:
+            self.good_data_to_obj(line)
 
-                    # Storing which indexes of data set have incorrect data.
-                    # To either remove it entirely or take out of displaying
+    def good_data_to_obj(self, line):
+        #self.data_set = list(set(self.data_set) - set(self.wrong_data))
+        split_line = line.split(',')
+        new_person = Person(split_line[0], split_line[1], split_line[2], split_line[3], split_line[4], split_line[5])
+        self.good_data.update({new_person.get_id() : new_person})
 
-        del_num_list.reverse()
-        for item in del_num_list:
-            self.data_set.pop(item - 1)
-            
-        return self.data_set
 
     def save_data(self):
         with open('data.pickle', 'wb') as f:
