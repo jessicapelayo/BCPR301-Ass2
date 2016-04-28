@@ -17,7 +17,7 @@ class StatementCoverageTests(unittest.TestCase):
         """
             100% statement covered
         """
-        self.model.data_set = ["A601,M,32,231,Normal,132"]
+        self.model.validator.data_set = ["A601,M,32,231,Normal,132"]
         self.expected = ["A601,M,32,231,Normal,132"]
         self.actual = self.model.wash_data()
         self.assertTrue(self.expected == self.actual)

@@ -18,8 +18,8 @@ class ConditionalCoverageTests(unittest.TestCase):
         """
         50% branch covered
         """
-        self.model.data_set = ["J329,N,88,865,Obesity,557"]
-        self.assertTrue(self.model.get_data_set() == self.model.data_set)
+        self.model.validator.data_set = ["J329,N,88,865,Obesity,557"]
+        self.assertTrue(self.model.get_data_set() == self.model.validator.data_set)
         self.expected = []
         self.actual = self.model.wash_data()
         self.assertTrue(self.expected == self.actual)

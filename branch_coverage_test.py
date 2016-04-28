@@ -17,7 +17,7 @@ class BranchCoverageTests(unittest.TestCase):
         """
         50% branch covered
         """
-        self.model.data_set = ["A601,M,32,231,Normal,132"]
+        self.model.validator.data_set = ["A601,M,32,231,Normal,132"]
         self.expected = ["A601,M,32,231,Normal,132"]
         self.actual = self.model.wash_data()
         self.assertTrue(self.expected == self.actual)
@@ -26,8 +26,8 @@ class BranchCoverageTests(unittest.TestCase):
         """
         50% branch covered
         """
-        self.model.data_set = ["W11,X,111,111,Norm,1234"]
-        self.assertTrue(self.model.get_data_set() == self.model.data_set)
+        self.model.validator.data_set = ["W11,X,111,111,Norm,1234"]
+        self.assertTrue(self.model.get_data_set() == self.model.validator.data_set)
         self.expected = []
         self.actual = self.model.wash_data()
         self.assertTrue(self.expected == self.actual)

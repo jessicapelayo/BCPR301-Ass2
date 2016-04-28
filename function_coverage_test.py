@@ -52,10 +52,6 @@ class FunctionCoverageTests(unittest.TestCase):
         print(self.model.get_gender())
         self.assertTrue(self.expected == self.actual)
 
-    def test_00(self):
-        self.model.read_in_csv("TestData.csv")
-        print(self.model.wash_data())
-        print(self.model.good_data.__len__())
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
