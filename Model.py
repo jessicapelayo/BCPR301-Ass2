@@ -47,17 +47,20 @@ class Model:
         #self.wash_data()
 
     def wash_data(self):
+        RULES = ['^[A-Z][0-9]{3}$', '(M|F)', '[0-9]{2}$', '[0-9]{3}$', '(Normal|Overweight|Obesity|Underweight)',
+                 '[0-9]{2,3}$']
         index = 0
         del_num_list = list()
         for i in self.data_set:
             tmp = self.data_set[index].split(',')
             index += 1
-            num = 1
+            num = 0
             inter = 0
             matching = None
 
             self.display_data.insert(self.display_data.__sizeof__(), tmp)
             for data in tmp:
+                """
                 if num == 1:
                     matching = re.match("^[A-Z][0-9]{3}$", data, flags=re.IGNORECASE)
                 elif num == 2:
@@ -70,6 +73,8 @@ class Model:
                     matching = re.match("(Normal|Overweight|Obesity|Underweight)", data)
                 elif num == 6:
                     matching = re.match("[0-9]{2,3}$", data)
+                """
+                matching = re.match(RULES[num], data)
                 num += 1
                 if matching is None:
                     self.wrong_data.insert(self.wrong_data.__sizeof__(), data)
