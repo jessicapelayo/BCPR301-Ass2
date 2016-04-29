@@ -32,7 +32,6 @@ class Model:
     def get_data_set(self):
         return self.validator.get_data_set()
 
-
     def read_in_csv(self, path):
         print("loading file...")
         file = open(path)
@@ -54,7 +53,6 @@ class Model:
 
     def get_sales(self):
         return self.chart_data.get_sales(self.validator.get_data())
-
 
     def get_weight(self):
         return self.chart_data.get_weight(self.validator.get_data())

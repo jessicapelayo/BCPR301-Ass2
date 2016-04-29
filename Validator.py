@@ -33,7 +33,6 @@ class Validator:
                 i + "," + p.get_gender() + "," + p.get_age() + "," + p.get_sales() + "," + p.get_bmi() + "," + p.get_income())
         return result
 
-
     def loop_line_item(self, line):
         RULES = ['^[A-Z][0-9]{3}$', '(M|F)', '[0-9]{2}$', '[0-9]{3}$', '(Normal|Overweight|Obesity|Underweight)',
                  '[0-9]{2,3}$']
@@ -45,18 +44,15 @@ class Validator:
         for item in split_line:
             result = re.match(RULES[i], item)
             i += 1
-            # if result == None:
-            # self.wrong_data.append(line)
             if result == None:
                 num_of_invalid_data += 1
         self.validate_line(line, num_of_invalid_data)
 
-    def validate_line(self, line, aNum):
-        if aNum == 0:
+    def validate_line(self, line, a_num):
+        if a_num == 0:
             self.good_data_to_obj(line)
 
     def good_data_to_obj(self, line):
-        # self.data_set = list(set(self.data_set) - set(self.wrong_data))
         split_line = line.split(',')
         new_person = Person(split_line[0], split_line[1], split_line[2], split_line[3], split_line[4], split_line[5])
         self.good_data.update({new_person.get_id(): new_person})
